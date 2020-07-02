@@ -1,14 +1,14 @@
 {
-  "name": "GridMap",
+  "name": "segredo-gridmap",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A toys",
+  "main": "./dist/GridMap.js",
   "scripts": {
     "build": "(.\\node_modules\\.bin\\webpack src/GridMap.js -o dist/GridMap.js) && (babel dist/GridMap.js -o dist/GridMap.js)"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-add-module-exports": "^1.0.2",
