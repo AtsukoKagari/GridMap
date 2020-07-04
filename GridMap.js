@@ -31,9 +31,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 }([function (e, t, i) {
   "use strict";
   i.r(t), i.d(t, "init", function () {
-    return Y;
-  }), i.d(t, "GridMap", function () {
     return X;
+  }), i.d(t, "GridMap", function () {
+    return E;
   });var s = { FullScreen: !0, Drag: !0, Scale: !0, boxColor: "#FFFF99", collision: !0, needGrid: !1, GridSize: 200 };var a = { options: s, setOptions: function setOptions(e) {
       for (var _t in e) {
         s[_t] = e[_t];
@@ -235,7 +235,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return m;
   }();
 
-  var _ = a.options;function C(e, t, i, s, a) {
+  var _ = a.options,
+      C = !0;function M(e, t, i, s, a) {
     var n = document.createElement("canvas"),
         l = n.getContext("2d");n.width = e.width, n.height = e.height;var o = t - Math.floor(e.width / 2) * s,
         r = o + e.width * s,
@@ -269,8 +270,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }for (; _n2 < e.width; _n2 += _a3 / s) {
         l.beginPath(), l.moveTo(_n2, 0), l.lineTo(_n2, e.height), l.stroke();
       }
-    }c.forEach(function (e) {
-      if (null != e.image) 0 == e.collision && (e.image.filter = "alpha(opacity=40);"), l.drawImage(e.image, e.x, e.y, e.sizeX, e.sizeY);else {
+    }var u = [];c.forEach(function (e) {
+      if (null != e.image) u.push(e), 0 == e.collision && (e.image.filter = "alpha(opacity=40);"), 1 == C ? e.image.onload = function () {
+        l.drawImage(e.image, e.x, e.y, e.sizeX, e.sizeY);
+      } : l.drawImage(e.image, e.x, e.y, e.sizeX, e.sizeY);else {
         if (null != e.color) {
           if (l.fillStyle = e.color, 0 == e.collision) {
             var _t4 = ColorToRGBA(e.color);l.fillStyle = "rgba(" + _t4.join(",") + ",0.4)";
@@ -279,18 +282,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var _e3 = ColorToRGBA(_.boxColor);l.fillStyle = "rgba(" + _e3.join(",") + ",0.4)";
         } else l.fillStyle = _.boxColor;l.fillRect(e.x, e.y, e.sizeX, e.sizeY);
       }
-    });var u = e.getContext("2d");u.clearRect(0, 0, e.width, e.height), u.drawImage(n, 0, 0);
-  }function M(e, t, i) {
+    });var p = e.getContext("2d");if (p.clearRect(0, 0, e.width, e.height), 1 == C) {
+      C = !1;var f = setInterval(function () {
+        var e = !0;for (var _t5 = 0; _t5 < u.length; _t5++) {
+          if (0 == u[_t5].complete) {
+            e = !1;break;
+          }
+        }1 == e && (p.drawImage(n, 0, 0), clearInterval(f));
+      }, 200);
+    } else p.drawImage(n, 0, 0);return !0;
+  }function F(e, t, i) {
     var s = i.getBoundingClientRect();return { x: e - s.left - (s.width - i.width) / 2, y: t - s.top - (s.height - i.height) / 2 };
-  }var F = null,
-      w = null;var G = { RegisterGragEvent: function RegisterGragEvent(e, t, i, s) {
+  }var w = null,
+      G = null;var y = { RegisterGragEvent: function RegisterGragEvent(e, t, i, s) {
       var a = !1,
           n = 0,
           l = 0;document.onmousedown = function (t) {
-        var i = M(t.clientX, t.clientY, e.showCanvas);i.x > 0 && i.x < e.showCanvas.width && i.y > 0 && i.y < e.showCanvas.height && (a = !0, n = i.x, l = i.y);
+        var i = F(t.clientX, t.clientY, e.showCanvas);i.x > 0 && i.x < e.showCanvas.width && i.y > 0 && i.y < e.showCanvas.height && (a = !0, n = i.x, l = i.y);
       }, document.onmousemove = function (o) {
         if (a) {
-          var _a4 = M(o.clientX, o.clientY, e.showCanvas);t.addPosX(-(_a4.x - n)), t.addPosY(-(_a4.y - l));var _r = t.getPos();C(e.showCanvas, _r[0], _r[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), n = _a4.x, l = _a4.y;
+          var _a4 = F(o.clientX, o.clientY, e.showCanvas);t.addPosX(-(_a4.x - n)), t.addPosY(-(_a4.y - l));var _r = t.getPos();M(e.showCanvas, _r[0], _r[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), n = _a4.x, l = _a4.y;
         }
       }, document.onmouseup = function (e) {
         a = !1, n = 0, l = 0;
@@ -299,120 +310,120 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       document.onmousedown = null, document.onmousemove = null, document.onmouseup = null;
     }, RegisterScaleEvent: function RegisterScaleEvent(e, t, i, s) {
       e.onmousewheel = e.onwheel = function (a) {
-        a.wheelDelta > 0 ? t.minusScale() : t.addScale();var n = t.getPos();C(e, n[0], n[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo()));
+        a.wheelDelta > 0 ? t.minusScale() : t.addScale();var n = t.getPos();M(e, n[0], n[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo()));
       };
     }, UnRegisterScaleEvent: function UnRegisterScaleEvent(e) {
       e.onmousewheel = e.onwheel = null;
     }, RegisterFullScreenShow: function RegisterFullScreenShow(e, t, i, s) {
-      F = function F() {
+      w = function w() {
         !function (e, t, i, s) {
           var a = e.GridMap_Canvas.getContext("2d"),
-              n = e.GridMap_Canvas_Full.getContext("2d");a.clearRect(0, 0, e.GridMap_Canvas.width, e.GridMap_Canvas.height), n.clearRect(0, 0, e.GridMap_Canvas_Full.width, e.GridMap_Canvas_Full.height), e.showCanvas = e.GridMap_Canvas;var l = t.getPos();C(e.GridMap_Canvas, l[0], l[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), e.GridMap_Canvas_Full_Div.style.display = "none";
+              n = e.GridMap_Canvas_Full.getContext("2d");a.clearRect(0, 0, e.GridMap_Canvas.width, e.GridMap_Canvas.height), n.clearRect(0, 0, e.GridMap_Canvas_Full.width, e.GridMap_Canvas_Full.height), e.showCanvas = e.GridMap_Canvas;var l = t.getPos();M(e.GridMap_Canvas, l[0], l[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), e.GridMap_Canvas_Full_Div.style.display = "none";
         }(e, t, i, s);
-      }, e.GridMap_Canvas_Full.addEventListener("dblclick", F, !1), w = function w() {
+      }, e.GridMap_Canvas_Full.addEventListener("dblclick", w, !1), G = function G() {
         !function (e, t, i, s) {
           var a = e.GridMap_Canvas.getContext("2d"),
-              n = e.GridMap_Canvas_Full.getContext("2d");a.clearRect(0, 0, e.GridMap_Canvas.width, e.GridMap_Canvas.height), n.clearRect(0, 0, e.GridMap_Canvas_Full.width, e.GridMap_Canvas_Full.height), e.showCanvas = e.GridMap_Canvas_Full;var l = t.getPos();C(e.GridMap_Canvas_Full, l[0], l[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), GridMap_Canvas_Full_Div.style.display = "";
+              n = e.GridMap_Canvas_Full.getContext("2d");a.clearRect(0, 0, e.GridMap_Canvas.width, e.GridMap_Canvas.height), n.clearRect(0, 0, e.GridMap_Canvas_Full.width, e.GridMap_Canvas_Full.height), e.showCanvas = e.GridMap_Canvas_Full;var l = t.getPos();M(e.GridMap_Canvas_Full, l[0], l[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), GridMap_Canvas_Full_Div.style.display = "";
         }(e, t, i, s);
-      }, e.GridMap_Canvas.addEventListener("dblclick", w, !1);
+      }, e.GridMap_Canvas.addEventListener("dblclick", G, !1);
     }, UnRegisterFullScreenShow: function UnRegisterFullScreenShow(e) {
-      e.GridMap_Canvas.removeEventListener("dbclick", w), e.GridMap_Canvas_Full.removeEventListener("dblclick", F);
-    } };var y = a.options;
-  var S = function () {
-    function S(e, t, i, s) {
-      _classCallCheck(this, S);
+      e.GridMap_Canvas.removeEventListener("dbclick", G), e.GridMap_Canvas_Full.removeEventListener("dblclick", w);
+    } };var S = a.options;
+  var I = function () {
+    function I(e, t, i, s) {
+      _classCallCheck(this, I);
 
-      this.gridClass = e, this.camera = t, this.map = i, this.item = s, y.FullScreen && G.RegisterFullScreenShow(this.gridClass, this.camera, this.map, this.item), y.Drag && G.RegisterGragEvent(this.gridClass, this.camera, this.map, this.item), y.Scale && (G.RegisterScaleEvent(this.gridClass.GridMap_Canvas, this.camera, this.map, this.item), G.RegisterScaleEvent(this.gridClass.GridMap_Canvas_Full, this.camera, this.map, this.item)), function (e, t, i, s) {
+      this.gridClass = e, this.camera = t, this.map = i, this.item = s, S.FullScreen && y.RegisterFullScreenShow(this.gridClass, this.camera, this.map, this.item), S.Drag && y.RegisterGragEvent(this.gridClass, this.camera, this.map, this.item), S.Scale && (y.RegisterScaleEvent(this.gridClass.GridMap_Canvas, this.camera, this.map, this.item), y.RegisterScaleEvent(this.gridClass.GridMap_Canvas_Full, this.camera, this.map, this.item)), function (e, t, i, s) {
         window.onresize = function () {
-          e.GridMap_Canvas.width = e.div.offsetWidth, e.GridMap_Canvas.height = e.div.offsetHeight, e.GridMap_Canvas_Full.width = window.document.body.offsetWidth, e.GridMap_Canvas_Full.height = window.document.body.offsetHeight;var a = t.getPos();C(e.showCanvas, a[0], a[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo()));
+          e.GridMap_Canvas.width = e.div.offsetWidth, e.GridMap_Canvas.height = e.div.offsetHeight, e.GridMap_Canvas_Full.width = window.document.body.offsetWidth, e.GridMap_Canvas_Full.height = window.document.body.offsetHeight;var a = t.getPos();M(e.showCanvas, a[0], a[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo()));
         };
       }(e, t, i, s);
     }
 
-    _createClass(S, [{
+    _createClass(I, [{
       key: "UnRegisterFullScreen",
       value: function UnRegisterFullScreen() {
-        y.FullScreen = !1, G.UnRegisterFullScreenShow(this.gridClass);
+        S.FullScreen = !1, y.UnRegisterFullScreenShow(this.gridClass);
       }
     }, {
       key: "UnRegisterDrag",
       value: function UnRegisterDrag() {
-        y.Drag = !1, G.UnRegisterGragEvent();
+        S.Drag = !1, y.UnRegisterGragEvent();
       }
     }, {
       key: "UnRegisterScale",
       value: function UnRegisterScale() {
-        y.Scale = !1, G.UnRegisterScaleEvent(this.gridClass.GridMap_Canvas), G.UnRegisterScaleEvent(this.gridClass.GridMap_Canvas_Full);
+        S.Scale = !1, y.UnRegisterScaleEvent(this.gridClass.GridMap_Canvas), y.UnRegisterScaleEvent(this.gridClass.GridMap_Canvas_Full);
       }
     }]);
 
-    return S;
+    return I;
   }();
 
-  var I = Symbol("itemInfo");
-  var b = function () {
-    function b(e) {
-      _classCallCheck(this, b);
+  var b = Symbol("itemInfo");
+  var z = function () {
+    function z(e) {
+      _classCallCheck(this, z);
 
-      this[I] = [], null != e && addItemInfo(e);
+      this[b] = [], null != e && addItemInfo(e);
     }
 
-    _createClass(b, [{
+    _createClass(z, [{
       key: "addItemInfo",
       value: function addItemInfo(e) {
         var _this = this;
 
         e.forEach(function (e) {
           var t = !0;if (e.hasOwnProperty("id")) {
-            for (var _i2 = 0; _i2 < _this[I].length; _i2++) {
-              if (_this[I][_i2].id == e.id) {
+            for (var _i2 = 0; _i2 < _this[b].length; _i2++) {
+              if (_this[b][_i2].id == e.id) {
                 console.error("[error]Item id must be unique."), t = !1;break;
               }
             }
           } else console.error("[warning]You need a item id."), e.id = function () {
             var e = new Date().getTime();return ((1 + Math.random()) * e | 0).toString(16);
-          }();if (!t) return;var i = {};for (var _t5 in e) {
-            if ("position" != _t5.toLowerCase()) {
-              if ("size" != _t5.toLowerCase()) i[_t5] = e[_t5];else {
-                var _s2 = e[_t5].split(",");if (2 != _s2.length) {
+          }();if (!t) return;var i = {};for (var _t6 in e) {
+            if ("position" != _t6.toLowerCase()) {
+              if ("size" != _t6.toLowerCase()) i[_t6] = e[_t6];else {
+                var _s2 = e[_t6].split(",");if (2 != _s2.length) {
                   console.warn("[Warning]Map size has invalid,must be only 2 dimension");continue;
                 }i.sizeX = _s2[0], i.sizeY = _s2[1];
               }
             } else {
-              var _s3 = e[_t5].split(",");if (2 != _s3.length) {
+              var _s3 = e[_t6].split(",");if (2 != _s3.length) {
                 console.warn("[Warning]Map position has invalid,must be only 2 dimension");continue;
               }i.x = _s3[0], i.y = _s3[1];
             }
-          }i.x && i.y && i.sizeX && i.sizeY ? (e.hasOwnProperty("collision") || (e.collision = !0), _this[I].push(i)) : console.error("[Error]Each item info must has position and size.");
+          }i.x && i.y && i.sizeX && i.sizeY ? (e.hasOwnProperty("collision") || (e.collision = !0), _this[b].push(i)) : console.error("[Error]Each item info must has position and size.");
         });
       }
     }, {
       key: "removeItem",
       value: function removeItem(e) {
-        for (var _t6 = this[I].length - 1; _t6 >= 0; _t6++) {
-          if (this[I][_t6].id == e) {
-            this[I].splice(_t6, 1);break;
+        for (var _t7 = this[b].length - 1; _t7 >= 0; _t7++) {
+          if (this[b][_t7].id == e) {
+            this[b].splice(_t7, 1);break;
           }
         }
       }
     }, {
       key: "getItemsInfo",
       value: function getItemsInfo() {
-        return this[I];
+        return this[b];
       }
     }, {
       key: "getItem",
       value: function getItem(e) {
-        for (var _t7 = this[I].length - 1; _t7 >= 0; _t7++) {
-          if (this[I][_t7].id == e) return this[I][_t7];
+        for (var _t8 = this[b].length - 1; _t8 >= 0; _t8++) {
+          if (this[b][_t8].id == e) return this[b][_t8];
         }
       }
     }]);
 
-    return b;
+    return z;
   }();
 
-  var z = a.options;function x(e, t, i, s, a) {
+  var x = a.options;function R(e, t, i, s, a) {
     var n = 0,
         l = !1,
         o = null,
@@ -420,7 +431,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       if (r[n].id == e) {
         o = r[n];break;
       }
-    }null != o ? (a && (t = o.x - t, i = o.y - i), z.collision && (l = function (e, t, i, s) {
+    }null != o ? (a && (t = o.x - t, i = o.y - i), x.collision && (l = function (e, t, i, s) {
       var a = !0;for (var _n3 = 0; _n3 < t.length; _n3++) {
         if (t[_n3].id != e.id && t[_n3].collision && 0 != t[_n3].collision) {
           var _l2 = t[_n3],
@@ -432,11 +443,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }return a;
     }(o, s.Map.getMapInfo().concat(s.Item.getItemsInfo()), t, i)), l && (r[n].x = t, r[n].y = i, s.Camera.getFocus() == e && s.Camera.setPos(t, i), s.refresh())) : console.error("[error]could not found item which id=" + e);
   }
-  var R = function R(e) {
-    _classCallCheck(this, R);
+  var Y = function Y(e) {
+    _classCallCheck(this, Y);
 
     this.controller = e, this.moveItem = function (e, t, i, s) {
-      x(e, t, i, this.controller, s);
+      R(e, t, i, this.controller, s);
     };
   };
 
@@ -444,7 +455,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     function D(e, t) {
       _classCallCheck(this, D);
 
-      a.setOptions(t), this.gridClass = new r(e), this.Map = new l(), this.Item = new b(), this.Camera = new m(), this.Ext = new R(this), this.ListenerController = new S(this.gridClass, this.Camera, this.Map, this.Item);
+      a.setOptions(t), this.gridClass = new r(e), this.Map = new l(), this.Item = new z(), this.Camera = new m(), this.Ext = new Y(this), this.ListenerController = new I(this.gridClass, this.Camera, this.Map, this.Item);
     }
 
     _createClass(D, [{
@@ -470,7 +481,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: "refresh",
       value: function refresh() {
-        var e = this.Camera.getPos();C(this.gridClass.showCanvas, e[0], e[1], this.Camera.getScale(), this.Map.getMapInfo().concat(this.Item.getItemsInfo()));
+        var e = this.Camera.getPos();M(this.gridClass.showCanvas, e[0], e[1], this.Camera.getScale(), this.Map.getMapInfo().concat(this.Item.getItemsInfo()));
       }
     }, {
       key: "showGrid",
@@ -487,7 +498,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     return D;
   }();
 
-  function Y(e, t) {
+  function X(e, t) {
     return new D(e, t);
-  }var X = new Object();X.init = Y, window.GridMap = X;
+  }var E = new Object();E.init = X, window.GridMap = E;
 }]);

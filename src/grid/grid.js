@@ -5,6 +5,8 @@ import Options from "../Options.js"
 
 var options = Options.options
 
+var firstPaint = true
+
 export function gridMap(canvas, cameraX, cameraY, cameraScale, info){
     let tempCanvas = document.createElement('canvas'); // 新建一个 canvas 作为缓存 canvas
     let tempCtx = tempCanvas.getContext('2d');
@@ -120,14 +122,23 @@ export function gridMap(canvas, cameraX, cameraY, cameraScale, info){
         }    
     }
 
+    let waitImageList = []
     // 绘图
     printList.forEach(p => {
         if (p.image != null) {
+            waitImageList.push(p)
             // Image的大小取决于你的设置
             if (p.collision == false) {
                 p.image.filter = 'alpha(opacity=40);'
             }
-            tempCtx.drawImage(p.image, p.x, p.y, p.sizeX, p.sizeY)
+            if(firstPaint == true){
+                p.image.onload = function(){
+                    tempCtx.drawImage(p.image, p.x, p.y, p.sizeX, p.sizeY)
+                }
+            } else {
+                tempCtx.drawImage(p.image, p.x, p.y, p.sizeX, p.sizeY)     
+            }
+
         } else {
             // 自定义着色
             if (p.color != null) {
@@ -152,5 +163,24 @@ export function gridMap(canvas, cameraX, cameraY, cameraScale, info){
 
     let ctx = canvas.getContext('2d')
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(tempCanvas, 0, 0);
+    if(firstPaint == true){
+        firstPaint = false
+        var timer = setInterval(() => {
+            let index =  true
+            for(let i =0;i<waitImageList.length;i++){
+                if(waitImageList[i].complete == false){
+                    index =false
+                    break
+                }
+            }
+            if(index == true){
+                ctx.drawImage(tempCanvas, 0, 0);
+                clearInterval(timer)
+            }
+        }, 200);
+    } else {
+        ctx.drawImage(tempCanvas, 0, 0);
+    }
+    
+    return true
 }

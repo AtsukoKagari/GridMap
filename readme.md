@@ -13,12 +13,12 @@
 ### 导入方式
 
 #### es6+
-`import {GridMap} from "./src/GridMap.js"
+`import GridMap from "GridMap"
 `
 
 #### es5
     es5有已经打包好的代码可以直接使用
-`<script src="./dist/GridMap.js"><script>
+`<script src="./index.js"><script>
 `
 
     如果想自己打包的话只需要在根目录输入

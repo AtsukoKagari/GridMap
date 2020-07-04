@@ -4,7 +4,7 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="./dist/GridMap.js"></script>
+        <script src="./GridMap.js"></script>
     </head>
     <body style="height: 100vh;width: 100%;">
         <div style="width: 100%;height: 49%;"></div>
@@ -13,7 +13,6 @@
             var map = document.getElementById("map")
             var image = new Image();
             image.src = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592501604988&di=a2f6970585c0f30af469adb7e4834f4a&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%3D580%2Fsign%3D51636e0b7bcf3bc7e800cde4e101babd%2F8682db22720e0cf3e1a0dcfd0146f21fbf09aab5.jpg"
-            image.onload = function (){
                 var gc = GridMap.init(map)
                 var mapinfo = []
                 for(var i=0;i < 10; i++){
@@ -61,7 +60,6 @@
                         gc.refresh()
                     }
                 }
-            }
 
         </script>
     </body>

@@ -6,6 +6,7 @@ export class ExtensionController{
         this.moveItem = function(id, x , y, relateive){
             moveItem(id, x, y,this.controller, relateive)
         }
+        
     }
 
 

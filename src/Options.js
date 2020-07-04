@@ -9,7 +9,7 @@ var options = {
     "boxColor": "#FFFF99",   // Default map block color
     "collision": true,
     "needGrid": false,
-    "GridSize": 200, 
+    "GridSize": 200,
 }
 
 function setOptions(option){
