@@ -291,17 +291,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }1 == e && (p.drawImage(n, 0, 0), clearInterval(f));
       }, 200);
     } else p.drawImage(n, 0, 0);return !0;
-  }function F(e, t, i) {
+  }function w(e, t, i) {
     var s = i.getBoundingClientRect();return { x: e - s.left - (s.width - i.width) / 2, y: t - s.top - (s.height - i.height) / 2 };
-  }var w = null,
+  }var F = null,
       G = null;var y = { RegisterGragEvent: function RegisterGragEvent(e, t, i, s) {
       var a = !1,
           n = 0,
           l = 0;document.onmousedown = function (t) {
-        var i = F(t.clientX, t.clientY, e.showCanvas);i.x > 0 && i.x < e.showCanvas.width && i.y > 0 && i.y < e.showCanvas.height && (a = !0, n = i.x, l = i.y);
+        var i = w(t.clientX, t.clientY, e.showCanvas);i.x > 0 && i.x < e.showCanvas.width && i.y > 0 && i.y < e.showCanvas.height && (a = !0, n = i.x, l = i.y);
       }, document.onmousemove = function (o) {
         if (a) {
-          var _a4 = F(o.clientX, o.clientY, e.showCanvas);t.addPosX(-(_a4.x - n)), t.addPosY(-(_a4.y - l));var _r = t.getPos();M(e.showCanvas, _r[0], _r[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), n = _a4.x, l = _a4.y;
+          var _a4 = w(o.clientX, o.clientY, e.showCanvas);t.addPosX(-(_a4.x - n)), t.addPosY(-(_a4.y - l));var _r = t.getPos();M(e.showCanvas, _r[0], _r[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), n = _a4.x, l = _a4.y;
         }
       }, document.onmouseup = function (e) {
         a = !1, n = 0, l = 0;
@@ -315,19 +315,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, UnRegisterScaleEvent: function UnRegisterScaleEvent(e) {
       e.onmousewheel = e.onwheel = null;
     }, RegisterFullScreenShow: function RegisterFullScreenShow(e, t, i, s) {
-      w = function w() {
+      F = function F() {
         !function (e, t, i, s) {
           var a = e.GridMap_Canvas.getContext("2d"),
               n = e.GridMap_Canvas_Full.getContext("2d");a.clearRect(0, 0, e.GridMap_Canvas.width, e.GridMap_Canvas.height), n.clearRect(0, 0, e.GridMap_Canvas_Full.width, e.GridMap_Canvas_Full.height), e.showCanvas = e.GridMap_Canvas;var l = t.getPos();M(e.GridMap_Canvas, l[0], l[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), e.GridMap_Canvas_Full_Div.style.display = "none";
         }(e, t, i, s);
-      }, e.GridMap_Canvas_Full.addEventListener("dblclick", w, !1), G = function G() {
+      }, e.GridMap_Canvas_Full.addEventListener("dblclick", F, !1), G = function G() {
         !function (e, t, i, s) {
           var a = e.GridMap_Canvas.getContext("2d"),
               n = e.GridMap_Canvas_Full.getContext("2d");a.clearRect(0, 0, e.GridMap_Canvas.width, e.GridMap_Canvas.height), n.clearRect(0, 0, e.GridMap_Canvas_Full.width, e.GridMap_Canvas_Full.height), e.showCanvas = e.GridMap_Canvas_Full;var l = t.getPos();M(e.GridMap_Canvas_Full, l[0], l[1], t.getScale(), i.getMapInfo().concat(s.getItemsInfo())), GridMap_Canvas_Full_Div.style.display = "";
         }(e, t, i, s);
       }, e.GridMap_Canvas.addEventListener("dblclick", G, !1);
     }, UnRegisterFullScreenShow: function UnRegisterFullScreenShow(e) {
-      e.GridMap_Canvas.removeEventListener("dbclick", G), e.GridMap_Canvas_Full.removeEventListener("dblclick", w);
+      e.GridMap_Canvas.removeEventListener("dbclick", G), e.GridMap_Canvas_Full.removeEventListener("dblclick", F);
     } };var S = a.options;
   var I = function () {
     function I(e, t, i, s) {
@@ -500,5 +500,5 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   function X(e, t) {
     return new D(e, t);
-  }var E = new Object();E.init = X, window.GridMap = E;
+  }var E = new Object();E.init = X, window.GridMap = E, "undefined" != typeof window && window.Vue && window.Vue.component("segredo-gridmap", E);
 }]);

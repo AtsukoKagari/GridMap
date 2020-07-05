@@ -9,3 +9,11 @@ export var GridMap = new Object();
 GridMap.init = init
 
 window.GridMap = GridMap
+
+if(typeof window !== 'undefined' && window.Vue){
+    window.Vue.component('segredo-gridmap', GridMap)
+}
+
+export default {
+    init
+}
